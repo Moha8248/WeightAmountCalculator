@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Weight Price Calculator</title>
+
+  <style>
+    :root{
+      --bg:#f3f6fb;
+      --card:#ffffff;
+      --primary:#2563eb;
+      --danger:#ef4444;
+      --text:#111827;
+      --border:#dbe3ee;
+      --shadow:0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    body.dark{
+      --bg:#111827;
+      --card:#1f2937;
+      --text:#f9fafb;
+      --border:#374151;
+      --shadow:0 10px 30px rgba(0,0,0,0.35);
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial,sans-serif;
+    }
+
+    body{
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+      transition:0.3s;
+    }
+
+    .card{
+      width:100%;
+      max-width:460px;
+      background:var(--card);
+      padding:24px;
+      border-radius:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:24px;
+    }
+
+    h1{
+      font-size:26px;
+      font-weight:700;
+    }
+
+    .dark-btn{
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .field{
+      margin-bottom:18px;
+    }
+
+    label{
+      display:block;
+      margin-bottom:8px;
+      font-weight:600;
+    }
+
+    input{
+      width:100%;
+      padding:16px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      font-size:17px;
+      outline:none;
+      background:transparent;
+      color:var(--text);
+    }
+
+    input:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 4px rgba(37,99,235,0.15);
+    }
+
+    .rate-box{
+      display:flex;
+      gap:10px;
+    }
+
+    .store-btn{
+      border:none;
+      background:var(--primary);
+      color:white;
+      padding:0 18px;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .result-box{
+      margin-top:22px;
+      background:rgba(37,99,235,0.08);
+      border-radius:20px;
+      padding:22px;
+    }
+
+    .result-item{
+      margin-bottom:20px;
+    }
+
+    .result-item:last-child{
+      margin-bottom:0;
+    }
+
+    .result-label{
+      font-size:15px;
+      margin-bottom:8px;
+      opacity:0.8;
+    }
+
+    .result-value{
+      font-size:38px;
+      font-weight:700;
+      word-break:break-word;
+    }
+
+    .buttons{
+      display:flex;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    button.action{
+      flex:1;
+      border:none;
+      padding:15px;
+      border-radius:14px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:600;
+    }
+
+    .reset{
+      background:var(--danger);
+      color:white;
+    }
+
+    .save{
+      background:var(--primary);
+      color:white;
+    }
+
+    .history{
+      margin-top:28px;
+    }
+
+    .history h3{
+      margin-bottom:14px;
+      font-size:20px;
+    }
+
+    .history-item{
+      background:rgba(37,99,235,0.08);
+      padding:14px;
+      border-radius:14px;
+      margin-bottom:12px;
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .empty{
+      opacity:0.7;
+      font-size:14px;
+    }
+
+    @media(max-width:480px){
+
+      .card{
+        padding:18px;
+      }
+
+      h1{
+        font-size:22px;
+      }
+
+      .result-value{
+        font-size:30px;
+      }
+
+      .rate-box{
+        flex-direction:column;
+      }
+
+      .store-btn{
+        height:50px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div class="top">
+      <h1>Weight Price Calculator</h1>
+
+      <button class="dark-btn" id="darkBtn">
+        🌙 Dark
+      </button>
+    </div>
+
+    <div class="field">
+
+      <label>1 KG Rate</label>
+
+      <div class="rate-box">
+
+        <input
+          type="number"
+          id="rate"
+          placeholder="Enter 1 KG rate"
+          min="0"
+          step="0.01"
+        />
+
+        <button id="storeRateBtn" class="store-btn">
+          Store
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="field">
+
+      <label>Weight (Gram)</label>
+
+      <input
+        type="number"
+        id="weight"
+        placeholder="Enter weight in gram"
+        min="0"
+        step="0.01"
+      />
+
+    </div>
+
+    <div class="field">
+
+      <label>Amount</label>
+
+      <input
+        type="number"
+        id="amount"
+        placeholder="Enter amount"
+        min="0"
+        step="0.01"
+      />
+
+    </div>
+
+    <div class="result-box">
+
+      <div class="result-item">
+
+        <div class="result-label">
+          Calculated Weight
+        </div>
+
+        <div class="result-value" id="weightDisplay">
+          0.00 Gram
+        </div>
+
+      </div>
+
+      <div class="result-item">
+
+        <div class="result-label">
+          Calculated Amount
+        </div>
+
+        <div class="result-value" id="amountDisplay">
+          0.00
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="buttons">
+
+      <button class="action reset" id="resetBtn">
+        Reset
+      </button>
+
+      <button class="action save" id="saveBtn">
+        Save
+      </button>
+
+    </div>
+
+    <div class="history">
+
+      <h3>Recent Calculations</h3>
+
+      <div id="historyList"></div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const rateInput = document.getElementById("rate");
+    const weightInput = document.getElementById("weight");
+    const amountInput = document.getElementById("amount");
+
+    const weightDisplay = document.getElementById("weightDisplay");
+    const amountDisplay = document.getElementById("amountDisplay");
+
+    const resetBtn = document.getElementById("resetBtn");
+    const saveBtn = document.getElementById("saveBtn");
+
+    const historyList = document.getElementById("historyList");
+
+    const darkBtn = document.getElementById("darkBtn");
+
+    const storeRateBtn =
+      document.getElementById("storeRateBtn");
+
+    // Load saved rate
+    window.addEventListener("load", () => {
+
+      const savedRate =
+        localStorage.getItem("savedRate");
+
+      if(savedRate){
+        rateInput.value = savedRate;
+      }
+
+      loadHistory();
+
+    });
+
+    function format(value){
+      return Number(value).toFixed(2);
+    }
+
+    function isValid(value){
+
+      return value !== "" &&
+             !isNaN(value) &&
+             Number(value) >= 0;
+
+    }
+
+    // Store 1 KG Rate
+    storeRateBtn.addEventListener("click", () => {
+
+      if(!isValid(rateInput.value)){
+
+        alert("Please enter valid 1 KG rate");
+
+        return;
+      }
+
+      localStorage.setItem(
+        "savedRate",
+        rateInput.value
+      );
+
+      alert("1 KG Rate Stored Successfully");
+
+    });
+
+    // Weight -> Amount
+    function calculateAmount(){
+
+      const rate =
+        parseFloat(rateInput.value);
+
+      const weightGram =
+        parseFloat(weightInput.value);
+
+      if(
+        isValid(rate) &&
+        isValid(weightGram)
+      ){
+
+        // Gram to KG
+        const weightKg =
+          weightGram / 1000;
+
+        const amount =
+          weightKg * rate;
+
+        amountInput.value =
+          format(amount);
+
+        amountDisplay.textContent =
+          format(amount);
+
+        weightDisplay.textContent =
+          format(weightGram) + " Gram";
+
+      }
+
+    }
+
+    // Amount -> Weight
+    function calculateWeight(){
+
+      const rate =
+        parseFloat(rateInput.value);
+
+      const amount =
+        parseFloat(amountInput.value);
+
+      if(
+        isValid(rate) &&
+        isValid(amount) &&
+        rate > 0
+      ){
+
+        // KG
+        const weightKg =
+          amount / rate;
+
+        // KG to Gram
+        const weightGram =
+          weightKg * 1000;
+
+        weightInput.value =
+          format(weightGram);
+
+        weightDisplay.textContent =
+          format(weightGram) + " Gram";
+
+        amountDisplay.textContent =
+          format(amount);
+
+      }
+
+    }
+
+    // Real-time calculation
+    weightInput.addEventListener(
+      "input",
+      calculateAmount
+    );
+
+    amountInput.addEventListener(
+      "input",
+      calculateWeight
+    );
+
+    // Reset
+    resetBtn.addEventListener("click", () => {
+
+      weightInput.value = "";
+      amountInput.value = "";
+
+      weightDisplay.textContent =
+        "0.00 Gram";
+
+      amountDisplay.textContent =
+        "0.00";
+
+    });
+
+    // Save calculation
+    saveBtn.addEventListener("click", () => {
+
+      if(
+        !rateInput.value ||
+        !weightInput.value ||
+        !amountInput.value
+      ){
+
+        alert("Please complete calculation");
+
+        return;
+      }
+
+      const history =
+        JSON.parse(
+          localStorage.getItem("calcHistory")
+        ) || [];
+
+      history.unshift({
+
+        rate: format(rateInput.value),
+
+        weight:
+          format(weightInput.value),
+
+        amount:
+          format(amountInput.value)
+
+      });
+
+      // Limit 5 history
+      if(history.length > 5){
+        history.pop();
+      }
+
+      localStorage.setItem(
+        "calcHistory",
+        JSON.stringify(history)
+      );
+
+      loadHistory();
+
+    });
+
+    // Load history
+    function loadHistory(){
+
+      const history =
+        JSON.parse(
+          localStorage.getItem("calcHistory")
+        ) || [];
+
+      historyList.innerHTML = "";
+
+      if(history.length === 0){
+
+        historyList.innerHTML =
+          "<div class='empty'>No saved calculations</div>";
+
+        return;
+      }
+
+      history.forEach(item => {
+
+        const div =
+          document.createElement("div");
+
+        div.className =
+          "history-item";
+
+        div.innerHTML = `
+
+          <strong>Rate:</strong>
+          ${item.rate} / KG
+          <br>
+
+          <strong>Weight:</strong>
+          ${item.weight} Gram
+          <br>
+
+          <strong>Amount:</strong>
+          ${item.amount}
+
+        `;
+
+        historyList.appendChild(div);
+
+      });
+
+    }
+
+    // Dark mode
+    darkBtn.addEventListener("click", () => {
+
+      document.body.classList.toggle("dark");
+
+      if(
+        document.body.classList.contains("dark")
+      ){
+
+        darkBtn.innerHTML =
+          "☀️ Light";
+
+      } else {
+
+        darkBtn.innerHTML =
+          "🌙 Dark";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
