@@ -7,28 +7,36 @@
 
   <style>
     :root{
-      --bg:#f3f6fb;
+      --bg:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       --card:#ffffff;
-      --primary:#2563eb;
+      --primary:#667eea;
+      --primary-dark:#5568d3;
+      --secondary:#764ba2;
+      --success:#10b981;
       --danger:#ef4444;
-      --text:#111827;
-      --border:#dbe3ee;
-      --shadow:0 10px 30px rgba(0,0,0,0.08);
+      --warning:#f59e0b;
+      --text:#1f2937;
+      --text-light:#6b7280;
+      --border:#e5e7eb;
+      --shadow:0 20px 40px rgba(0,0,0,0.12);
+      --shadow-lg:0 25px 50px rgba(102,126,234,0.15);
     }
 
     body.dark{
-      --bg:#111827;
-      --card:#1f2937;
+      --bg:linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      --card:#0f3460;
       --text:#f9fafb;
+      --text-light:#d1d5db;
       --border:#374151;
-      --shadow:0 10px 30px rgba(0,0,0,0.35);
+      --shadow:0 20px 40px rgba(0,0,0,0.3);
+      --shadow-lg:0 25px 50px rgba(102,126,234,0.25);
     }
 
     *{
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family:Arial,sans-serif;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body{
@@ -39,172 +47,290 @@
       justify-content:center;
       align-items:center;
       padding:20px;
-      transition:0.3s;
+      transition:all 0.4s ease;
     }
 
     .card{
       width:100%;
-      max-width:460px;
+      max-width:520px;
       background:var(--card);
-      padding:24px;
-      border-radius:24px;
-      box-shadow:var(--shadow);
+      padding:40px;
+      border-radius:32px;
+      box-shadow:var(--shadow-lg);
+      backdrop-filter:blur(10px);
+      animation:slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .top{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      margin-bottom:24px;
+      margin-bottom:32px;
+      padding-bottom:24px;
+      border-bottom:2px solid var(--border);
     }
 
     h1{
-      font-size:26px;
-      font-weight:700;
+      font-size:32px;
+      font-weight:800;
+      background:linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      letter-spacing:-0.5px;
     }
 
     .dark-btn{
       border:none;
       background:var(--primary);
       color:#fff;
-      padding:10px 14px;
-      border-radius:12px;
+      padding:12px 18px;
+      border-radius:16px;
       cursor:pointer;
-      font-size:14px;
+      font-size:16px;
       font-weight:600;
+      transition:all 0.3s ease;
+      box-shadow:0 4px 15px rgba(102,126,234,0.3);
+    }
+
+    .dark-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(102,126,234,0.4);
+    }
+
+    .dark-btn:active{
+      transform:translateY(0);
     }
 
     .field{
-      margin-bottom:18px;
+      margin-bottom:24px;
     }
 
     label{
       display:block;
-      margin-bottom:8px;
-      font-weight:600;
+      margin-bottom:10px;
+      font-weight:700;
+      font-size:15px;
+      color:var(--text);
+      text-transform:uppercase;
+      letter-spacing:0.5px;
     }
 
     input{
       width:100%;
-      padding:16px;
-      border-radius:14px;
-      border:1px solid var(--border);
-      font-size:17px;
+      padding:16px 18px;
+      border-radius:16px;
+      border:2px solid var(--border);
+      font-size:16px;
       outline:none;
-      background:transparent;
+      background:var(--card);
       color:var(--text);
+      transition:all 0.3s ease;
+      font-weight:500;
     }
 
     input:focus{
       border-color:var(--primary);
-      box-shadow:0 0 0 4px rgba(37,99,235,0.15);
+      box-shadow:0 0 0 5px rgba(102,126,234,0.1), 0 0 0 2px var(--primary);
+      background:var(--card);
+    }
+
+    input::placeholder{
+      color:var(--text-light);
     }
 
     .rate-box{
       display:flex;
-      gap:10px;
+      gap:12px;
     }
 
     .store-btn{
       border:none;
-      background:var(--primary);
+      background:linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color:white;
-      padding:0 18px;
-      border-radius:14px;
+      padding:16px 24px;
+      border-radius:16px;
       font-size:15px;
-      font-weight:600;
+      font-weight:700;
       cursor:pointer;
       white-space:nowrap;
+      transition:all 0.3s ease;
+      box-shadow:0 4px 15px rgba(102,126,234,0.3);
+      flex-shrink:0;
+    }
+
+    .store-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(102,126,234,0.4);
+    }
+
+    .store-btn:active{
+      transform:translateY(0);
     }
 
     .result-box{
-      margin-top:22px;
-      background:rgba(37,99,235,0.08);
-      border-radius:20px;
-      padding:22px;
+      margin-top:32px;
+      background:linear-gradient(135deg, rgba(102,126,234,0.08) 0%, rgba(118,75,162,0.08) 100%);
+      border:2px solid var(--primary);
+      border-radius:24px;
+      padding:28px;
+      box-shadow:0 8px 24px rgba(102,126,234,0.12);
+      transition:all 0.3s ease;
+    }
+
+    .result-box:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 32px rgba(102,126,234,0.18);
+    }
+
+    body.dark .result-box{
+      background:linear-gradient(135deg, rgba(102,126,234,0.15) 0%, rgba(118,75,162,0.12) 100%);
+      border:2px solid rgba(102,126,234,0.5);
     }
 
     .result-item{
-      margin-bottom:20px;
+      margin-bottom:24px;
+      padding-bottom:24px;
+      border-bottom:1px solid var(--border);
     }
 
     .result-item:last-child{
       margin-bottom:0;
+      padding-bottom:0;
+      border-bottom:none;
     }
 
     .result-label{
-      font-size:15px;
-      margin-bottom:8px;
-      opacity:0.8;
+      font-size:13px;
+      margin-bottom:12px;
+      opacity:0.7;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+      color:var(--text-light);
     }
 
     .result-value{
-      font-size:38px;
-      font-weight:700;
+      font-size:42px;
+      font-weight:800;
       word-break:break-word;
+      background:linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
     }
 
     .buttons{
       display:flex;
-      gap:12px;
-      margin-top:22px;
+      gap:14px;
+      margin-top:28px;
     }
 
     button.action{
       flex:1;
       border:none;
-      padding:15px;
-      border-radius:14px;
+      padding:16px;
+      border-radius:16px;
       cursor:pointer;
       font-size:16px;
-      font-weight:600;
+      font-weight:700;
+      transition:all 0.3s ease;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    button.action:hover{
+      transform:translateY(-2px);
+      box-shadow:0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    button.action:active{
+      transform:translateY(0);
     }
 
     .reset{
-      background:var(--danger);
+      background:linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
       color:white;
     }
 
     .save{
-      background:var(--primary);
+      background:linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color:white;
     }
 
     .history{
-      margin-top:28px;
+      margin-top:36px;
+      padding-top:28px;
+      border-top:2px solid var(--border);
     }
 
     .history h3{
-      margin-bottom:14px;
-      font-size:20px;
+      margin-bottom:20px;
+      font-size:18px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+      color:var(--text);
     }
 
     .history-item{
-      background:rgba(37,99,235,0.08);
-      padding:14px;
-      border-radius:14px;
-      margin-bottom:12px;
-      line-height:1.7;
-      font-size:15px;
+      background:linear-gradient(135deg, rgba(102,126,234,0.06) 0%, rgba(118,75,162,0.06) 100%);
+      padding:18px;
+      border-radius:16px;
+      margin-bottom:14px;
+      line-height:1.8;
+      font-size:14px;
+      border-left:4px solid var(--primary);
+      transition:all 0.3s ease;
+      cursor:pointer;
+    }
+
+    .history-item:hover{
+      transform:translateX(4px);
+      background:linear-gradient(135deg, rgba(102,126,234,0.12) 0%, rgba(118,75,162,0.12) 100%);
+      box-shadow:0 4px 12px rgba(102,126,234,0.15);
+    }
+
+    .history-item strong{
+      color:var(--primary);
+      font-weight:700;
+      text-transform:uppercase;
+      font-size:12px;
+      letter-spacing:0.3px;
     }
 
     .empty{
-      opacity:0.7;
+      opacity:0.6;
       font-size:14px;
+      text-align:center;
+      padding:20px;
+      color:var(--text-light);
     }
 
     @media(max-width:480px){
 
       .card{
-        padding:18px;
+        padding:24px;
       }
 
       h1{
-        font-size:22px;
+        font-size:26px;
       }
 
       .result-value{
-        font-size:30px;
+        font-size:36px;
       }
 
       .rate-box{
@@ -212,7 +338,26 @@
       }
 
       .store-btn{
-        height:50px;
+        width:100%;
+        padding:16px;
+      }
+
+      .buttons{
+        flex-direction:column;
+      }
+
+      button.action{
+        width:100%;
+      }
+
+      .top{
+        flex-direction:column;
+        gap:12px;
+        align-items:flex-start;
+      }
+
+      .dark-btn{
+        width:100%;
       }
     }
 
@@ -224,7 +369,7 @@
   <div class="card">
 
     <div class="top">
-      <h1>Weight Price Calculator</h1>
+      <h1>💰 Price Calculator</h1>
 
       <button class="dark-btn" id="darkBtn">
         🌙 Dark
@@ -233,7 +378,7 @@
 
     <div class="field">
 
-      <label>1 KG Rate</label>
+      <label>⚙️ 1 KG Rate (Base Price)</label>
 
       <div class="rate-box">
 
@@ -246,7 +391,7 @@
         />
 
         <button id="storeRateBtn" class="store-btn">
-          Store
+          💾 Store
         </button>
 
       </div>
@@ -255,7 +400,7 @@
 
     <div class="field">
 
-      <label>Weight (Gram)</label>
+      <label>⚖️ Weight (Gram)</label>
 
       <input
         type="number"
@@ -269,7 +414,7 @@
 
     <div class="field">
 
-      <label>Amount</label>
+      <label>💵 Amount (Price)</label>
 
       <input
         type="number"
@@ -286,7 +431,7 @@
       <div class="result-item">
 
         <div class="result-label">
-          Calculated Weight
+          📊 Calculated Weight
         </div>
 
         <div class="result-value" id="weightDisplay">
@@ -298,7 +443,7 @@
       <div class="result-item">
 
         <div class="result-label">
-          Calculated Amount
+          💰 Calculated Amount
         </div>
 
         <div class="result-value" id="amountDisplay">
@@ -312,18 +457,18 @@
     <div class="buttons">
 
       <button class="action reset" id="resetBtn">
-        Reset
+        🔄 Reset
       </button>
 
       <button class="action save" id="saveBtn">
-        Save
+        ✅ Save
       </button>
 
     </div>
 
     <div class="history">
 
-      <h3>Recent Calculations</h3>
+      <h3>📝 Recent Calculations</h3>
 
       <div id="historyList"></div>
 
@@ -381,7 +526,7 @@
 
       if(!isValid(rateInput.value)){
 
-        alert("Please enter valid 1 KG rate");
+        alert("⚠️ Please enter a valid 1 KG rate");
 
         return;
       }
@@ -391,7 +536,7 @@
         rateInput.value
       );
 
-      alert("1 KG Rate Stored Successfully");
+      alert("✅ 1 KG Rate Stored Successfully!");
 
     });
 
@@ -499,7 +644,7 @@
         !amountInput.value
       ){
 
-        alert("Please complete calculation");
+        alert("⚠️ Please complete calculation first");
 
         return;
       }
@@ -531,6 +676,8 @@
         JSON.stringify(history)
       );
 
+      alert("✅ Calculation Saved Successfully!");
+
       loadHistory();
 
     });
@@ -548,12 +695,12 @@
       if(history.length === 0){
 
         historyList.innerHTML =
-          "<div class='empty'>No saved calculations</div>";
+          "<div class='empty'>📭 No saved calculations yet</div>";
 
         return;
       }
 
-      history.forEach(item => {
+      history.forEach((item, index) => {
 
         const div =
           document.createElement("div");
@@ -563,15 +710,15 @@
 
         div.innerHTML = `
 
-          <strong>Rate:</strong>
+          <strong>💵 Rate:</strong>
           ${item.rate} / KG
           <br>
 
-          <strong>Weight:</strong>
+          <strong>⚖️ Weight:</strong>
           ${item.weight} Gram
           <br>
 
-          <strong>Amount:</strong>
+          <strong>💰 Amount:</strong>
           ${item.amount}
 
         `;
